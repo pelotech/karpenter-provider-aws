@@ -32,6 +32,8 @@ require (
 	sigs.k8s.io/yaml v1.4.0
 )
 
+replace sigs.k8s.io/karpenter v0.35.4 => github.com/pelotech/karpenter v0.0.0-20240405222143-41b7525ba99b
+
 require (
 	contrib.go.opencensus.io/exporter/ocagent v0.7.1-0.20200907061046-05415f1de66d // indirect
 	contrib.go.opencensus.io/exporter/prometheus v0.4.2 // indirect
