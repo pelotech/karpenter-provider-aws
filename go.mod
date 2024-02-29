@@ -30,6 +30,8 @@ require (
 	sigs.k8s.io/karpenter v0.34.1-0.20240221213555-0fea7cee3459
 )
 
+replace sigs.k8s.io/karpenter v0.34.1-0.20240221213555-0fea7cee3459 => github.com/pelotech/karpenter v0.0.0-20240228044509-ca95fb9a257e
+
 require (
 	contrib.go.opencensus.io/exporter/ocagent v0.7.1-0.20200907061046-05415f1de66d // indirect
 	contrib.go.opencensus.io/exporter/prometheus v0.4.2 // indirect
