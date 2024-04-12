@@ -84,7 +84,7 @@ var _ = Describe("StandaloneNodeClaim", func() {
 		env.ExpectCreated(nodeClass, nodeClaim)
 		node := env.EventuallyExpectInitializedNodeCount("==", 1)[0]
 		nodeClaim = env.EventuallyExpectCreatedNodeClaimCount("==", 1)[0]
-		Expect(resources.Fits(nodeClaim.Spec.Resources.Requests, node.Status.Allocatable))
+		Expect(resources.Fits(nodeClaim.Spec.Resources.Requests, node.Status.Allocatable, v1.ResourceList{}))
 		env.EventuallyExpectNodeClaimsReady(nodeClaim)
 	})
 	It("should create a NodeClaim propagating all the NodeClaim spec details", func() {
