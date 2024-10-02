@@ -19,6 +19,7 @@ import (
 	stderrors "errors"
 	"fmt"
 	"net/http"
+	"sigs.k8s.io/karpenter/pkg/operator/options"
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/ec2"
@@ -282,7 +283,7 @@ func (c *CloudProvider) resolveInstanceTypes(ctx context.Context, nodeClaim *kar
 	return lo.Filter(instanceTypes, func(i *cloudprovider.InstanceType, _ int) bool {
 		return reqs.Compatible(i.Requirements, scheduling.AllowUndefinedWellKnownLabels) == nil &&
 			len(i.Offerings.Compatible(reqs).Available()) > 0 &&
-			resources.Fits(nodeClaim.Spec.Resources.Requests, i.Allocatable())
+			resources.Fits(nodeClaim.Spec.Resources.Requests, i.Allocatable(), options.FromContext(ctx).IgnoredResourceRequests.Keys)
 	}), nil
 }
 
