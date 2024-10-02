@@ -48,6 +48,8 @@ require (
 	sigs.k8s.io/yaml v1.4.0
 )
 
+replace sigs.k8s.io/karpenter v1.2.0 => ../karpenter
+
 require (
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
