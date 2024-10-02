@@ -18,13 +18,14 @@ import (
 	"context"
 	stderrors "errors"
 	"fmt"
-	"time"
 
 	ec2types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/awslabs/operatorpkg/status"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	coreoptions "sigs.k8s.io/karpenter/pkg/operator/options"
+	"time"
 
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	coreapis "sigs.k8s.io/karpenter/pkg/apis"
@@ -255,12 +256,12 @@ func (c *CloudProvider) RepairPolicies() []cloudprovider.RepairPolicy {
 		{
 			ConditionType:      corev1.NodeReady,
 			ConditionStatus:    corev1.ConditionFalse,
-			TolerationDuration: 30 * time.Minute,
+			TolerationDuration: 10 * time.Minute,
 		},
 		{
 			ConditionType:      corev1.NodeReady,
 			ConditionStatus:    corev1.ConditionUnknown,
-			TolerationDuration: 30 * time.Minute,
+			TolerationDuration: 10 * time.Minute,
 		},
 		// Support Node Monitoring Agent Conditions
 		//
@@ -328,7 +329,7 @@ func (c *CloudProvider) resolveInstanceTypes(ctx context.Context, nodeClaim *kar
 	return lo.Filter(instanceTypes, func(i *cloudprovider.InstanceType, _ int) bool {
 		return reqs.Compatible(i.Requirements, scheduling.AllowUndefinedWellKnownLabels) == nil &&
 			len(i.Offerings.Compatible(reqs).Available()) > 0 &&
-			resources.Fits(nodeClaim.Spec.Resources.Requests, i.Allocatable())
+			resources.Fits(nodeClaim.Spec.Resources.Requests, i.Allocatable(), coreoptions.FromContext(ctx).IgnoredResourceRequests.Keys)
 	}), nil
 }
 
