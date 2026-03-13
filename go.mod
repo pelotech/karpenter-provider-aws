@@ -46,9 +46,11 @@ require (
 	k8s.io/klog/v2 v2.130.1
 	k8s.io/utils v0.0.0-20251222233032-718f0e51e6d2
 	sigs.k8s.io/controller-runtime v0.23.1
-	sigs.k8s.io/karpenter v1.14.1-0.20260819221709-6e7eab7a0f48
+	sigs.k8s.io/karpenter v1.14.1
 	sigs.k8s.io/yaml v1.6.0
 )
+
+replace sigs.k8s.io/karpenter v1.14.1 => ../karpenter
 
 require (
 	cel.dev/expr v0.24.0 // indirect
